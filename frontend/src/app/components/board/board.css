@@ -1,0 +1,11 @@
+.checked {
+  background-color: green;
+  font-size: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-checked {
+  background-color: red;
+}
