@@ -1,36 +1,29 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Match from 'App/Models/Match'
-import IpromiseResponse from 'App/interfaces/IpromiseResponse'
 
 export default class MatchesController {
-  public async index({ response }: HttpContextContract): Promise<IpromiseResponse> {
-    const matches = await Match.all()
-    let res = response.status(500)
-    let msg = ''
+  public async index({ response }: HttpContextContract): Promise<void> {
+    try {
+      const matches = await Match.all()
 
-    if (matches.length <= 0) {
-      res = response.status(400)
-      msg = 'Não existem partidas no sistema.'
-      data: []
-    } else {
-      res = response.status(200)
-      msg = 'Partidas encontradas:'
+      return response.status(200).json({ data: matches })
+    } catch (e) {
+      return response.status(200).json({ message: "There's no matches in database" })
     }
-
-    return { status: res.status, message: msg, data: matches }
   }
 
-  public async store({ request, response }: HttpContextContract) {
-    const data = request.body()
+  public async store({ request, response }: HttpContextContract): Promise<void> {
+    try {
+      const match = request.body()
+      if (match.user_id_one === match.user_id_two) {
+        return response.status(400).json({ message: 'Player allready in-game' })
+      }
 
-    if (data.user_id_one === data.user_id_two) {
-      response.status(400)
-      return { message: 'Usuário inválido.' }
+      const matchResponse = await Match.create(match)
+
+      return response.status(200).json(matchResponse)
+    } catch (e) {
+      return response.status(200).json({ message: 'Player not found' })
     }
-
-    const match = await Match.create(data)
-
-    response.status(201)
-    return { message: 'Partida criada com sucesso.', data: match }
   }
 }

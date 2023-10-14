@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Board from './components/board/Board';
+import ButtonReset from './components/buttonReset/ButtonReset';
 
 export default function Home() {
   return (
