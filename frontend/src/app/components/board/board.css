@@ -1,8 +1,8 @@
 .checked {
-  background-color: green;
-  font-size: 70px;
-  display: flex;
   align-items: center;
+  background-color: green;
+  display: flex;
+  font-size: 70px;
   justify-content: center;
 }
 

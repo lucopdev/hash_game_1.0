@@ -24,14 +24,18 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/login', 'LoginController.store')
-
 Route.group(() => {
-  Route.get('/', 'UsersController.index')
-  Route.post('/', 'UsersController.store')
-}).prefix('/users')
+  Route.post('/register', 'RegisterController.store')
+  Route.post('/login', 'LoginController.store')
 
-Route.group(() => {
-  Route.get('/', 'MatchesController.index')
-  Route.post('/', 'MatchesController.store')
-}).prefix('/matches')
+  Route.group(() => {
+    Route.group(() => {
+      Route.get('/', 'UsersController.index')
+    }).prefix('/users')
+
+    Route.group(() => {
+      Route.get('/', 'MatchesController.index')
+      Route.post('/', 'MatchesController.store')
+    }).prefix('/matches')
+  }).middleware('auth')
+}).prefix('/api')

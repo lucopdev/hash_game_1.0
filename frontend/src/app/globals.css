@@ -2,26 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
+/* :root {
+  --foreground-rgb: 39, 39, 42;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 35, 60, 40;
+    --background-middle1-rgb: 30, 50, 30;
+    --background-middle2-rgb: 30, 40, 30;
+    --background-middle3-rgb: 25, 32, 25;
+    --background-middle4-rgb: 22, 28, 22;
+    --background-middle5-rgb: 22, 22, 22;
+    --background-middle6-rgb: 20, 20, 20;
+    --background-end-rgb: 20, 20, 20;
   }
 }
 
 body {
+  height: 100vh;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-image: radial-gradient(
+    circle,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-middle1-rgb)),
+    rgb(var(--background-middle2-rgb)),
+    rgb(var(--background-middle3-rgb)),
+    rgb(var(--background-middle4-rgb)),
+    rgb(var(--background-middle5-rgb)),
+    rgb(var(--background-middle6-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  background-repeat: no-repeat;
+  overflow-y: hidden;
 }

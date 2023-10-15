@@ -1,3 +1,5 @@
+import { ReactPropTypes } from 'react';
+
 export default function ButtonReset(props: any) {
   const resetGame = () => {
     const { boardSize, resetOne, resetTwo, valueOne } = props;
