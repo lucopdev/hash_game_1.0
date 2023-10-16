@@ -7,9 +7,9 @@ export default class LoginController {
       const data = request.body()
       const registeredUser = await User.create(data)
 
-      return response.status(200).json(registeredUser)
+      return response.status(200).json({status: 'SUCCESSFUL', data: registeredUser})
     } catch (e) {
-      return response.badRequest({ message: "User couldn't be registered OR already registered" })
+      return response.badRequest({ status: 'ERROR', message: "User couldn't be registered OR already registered" })
     }
   }
 }

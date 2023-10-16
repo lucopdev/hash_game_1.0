@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import generateToken from 'App/utils/token'
 
 export default class LoginController {
   public async store({ auth, request, response }: HttpContextContract) {
@@ -11,12 +12,14 @@ export default class LoginController {
     }
 
     try {
-      const token = await auth.use('api').attempt(username, password)
+      const token = await generateToken(auth, username, password)
+      process.env.TOKEN = token.token
+
       return response
         .status(200)
         .json({ status: 'SUCCESSFUL', message: `User ${username} is logged`, token })
     } catch (e) {
-      return response.status(500).json({ status: 'ERROR', message: 'User not logged ---> ' + e })
+      return response.status(500).json({ status: 'ERROR', message: e.responseText })
     }
   }
 }
