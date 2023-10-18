@@ -8,7 +8,6 @@ export default function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const registerFunction = () => {
-    console.log('abriu janela');
     setIsModalOpen(true);
   };
 
@@ -28,7 +27,7 @@ export default function Register() {
       {isModalOpen && (
         <div className="fade-in absolute top-0 flex flex-col justify-center items-center w-screen h-screen bg-zinc-800 bg-opacity-80">
           <div className="flex flex-col justify-center items-center w-6/12 h-3/4 rounded bg-zinc-900 bg-opacity-80">
-            <RegisterForm buttonType={'register'} />
+            <RegisterForm closeFunction={closeFunction} buttonType={'register'} />
           </div>
           <button onClick={closeFunction}>Fechar</button>
         </div>

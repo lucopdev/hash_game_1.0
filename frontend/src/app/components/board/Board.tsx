@@ -74,26 +74,33 @@ export default function Board() {
   };
 
   return (
-    <div className="flex flex-col border-4 rounded-2xl items-center justify-center w-6/12 h-3/4 background: bg-blue-500">
-      <h1 className="m-3">Jogo da velha</h1>
-      <div className="board box-border flex flex-wrap items-center justify-center w-60 h-fit background: bg-red-500">
+    <div className="flex flex-col border-4 rounded-2xl items-center justify-center w-6/12 h-3/4 bg-blue-500 shadow-inner">
+      <h1 className="m-3"></h1>
+      <div className="board box-border flex flex-wrap items-center justify-center w-60 h-fit bg-red-500">
         {makeDiv(boardSize)}
       </div>
       <Score scoreOne={scoreOne} scoreTwo={scoreTwo} />
-      <ButtonReset
-        innerText="Reset Game"
-        boardSize={boardSize}
-        resetOne={setPositionSequencePONE}
-        resetTwo={setPositionSequencePTWO}
-        valueOne={positionSequencePONE}
-      />
-      <ButtonReset
-        innerText="Reset Points"
-        boardSize={boardSize}
-        resetOne={setScoreOne}
-        resetTwo={setScoreTwo}
-        valueOne={scoreOne}
-      />
+      <div className="flex flex-col w-[50%] justify-center items-center border-2">
+        <div>
+          <h1>AREA DEV</h1>
+        </div>
+        <div className="flex">
+          <ButtonReset
+            innerText="Reset Game"
+            boardSize={boardSize}
+            resetOne={setPositionSequencePONE}
+            resetTwo={setPositionSequencePTWO}
+            valueOne={positionSequencePONE}
+          />
+          <ButtonReset
+            innerText="Reset Points"
+            boardSize={boardSize}
+            resetOne={setScoreOne}
+            resetTwo={setScoreTwo}
+            valueOne={scoreOne}
+          />
+        </div>
+      </div>
     </div>
   );
 }

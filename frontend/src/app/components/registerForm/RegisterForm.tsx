@@ -1,24 +1,49 @@
 'use client';
 
-import formValue from '@/interfaces/Iformvalue';
+import LoginFormValue from '@/interfaces/ILoginFormValue';
+import IFormSubmit from '@/interfaces/IFormSubmit';
 import { fetchApiLogin, fetchApiRegister } from '@/utils/userAPI';
-import { ChangeEvent, FormEvent, ReactPropTypes, useState } from 'react';
+import { ChangeEvent, FormEvent, ReactPropTypes, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm(props: any) {
-  const [formValues, setFormValues] = useState<formValue>({
+  const router = useRouter();
+  const [formValues, setFormValues] = useState<LoginFormValue>({
     username: '',
     password: '',
   });
 
-  const loginFunc = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const submitFunction = async (e: FormEvent<HTMLFormElement>): Promise<IFormSubmit> => {
     e.preventDefault();
     const payload = {
       username: formValues.username,
       password: formValues.password,
     };
 
-    const test = await fetchApiLogin(payload);
-    console.log(test);
+    let login = null;
+    let register = null;
+
+    try {
+      if (props.buttonType === 'login') {
+        login = await fetchApiLogin(payload);
+      } else {
+        register = await fetchApiRegister(payload);
+      }
+
+      return { status: 'SUCCESSFULL', message: 'Form successfully submited' };
+    } catch (e) {
+      return { status: 'ERROR', message: 'Impossible to submit form' };
+    } finally {
+      if (register !== null && register.status === 'SUCCESSFUL') {
+        props.closeFunction();
+      }
+
+      if (login !== null && login.status === 'SUCCESSFUL') {
+        const token = JSON.stringify(login.token.token)
+        document.cookie = `token=${token}`
+        router.push('/');
+      }
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +56,7 @@ export default function RegisterForm(props: any) {
 
   return (
     <form
-      onSubmit={loginFunc}
+      onSubmit={submitFunction}
       className="m-auto flex flex-col justify-center items-center w-64 h-64 bg-green-500"
     >
       <fieldset className="flex flex-col justify-end items-center w-56 h-56 bg-zinc-800">
@@ -54,7 +79,7 @@ export default function RegisterForm(props: any) {
           />
         </div>
         <button type="submit" className="border-2 rounded p-1 w-24 bg-green-500">
-          {props.buttonType === 'login' ? 'Log in': 'Register'}
+          {props.buttonType === 'login' ? 'Log in' : 'Register'}
         </button>
       </fieldset>
     </form>

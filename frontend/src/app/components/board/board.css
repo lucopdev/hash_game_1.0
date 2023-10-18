@@ -4,8 +4,10 @@
   display: flex;
   font-size: 70px;
   justify-content: center;
+  box-shadow: inset 2px 2px 5px 0 rgba(0, 0, 0, 0.79);
 }
 
 .not-checked {
   background-color: red;
+  box-shadow: inset 2px 2px 4px 0 rgba(0, 0, 0, 0.820);
 }
