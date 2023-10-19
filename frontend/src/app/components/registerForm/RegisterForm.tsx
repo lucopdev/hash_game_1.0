@@ -39,7 +39,8 @@ export default function RegisterForm(props: any) {
       }
 
       if (login !== null && login.status === 'SUCCESSFUL') {
-        const token = JSON.stringify(login.token.token)
+        const token = JSON.stringify(login.token)
+        
         document.cookie = `token=${token}`
         router.push('/');
       }

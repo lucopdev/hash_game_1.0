@@ -12,11 +12,12 @@ export async function fetchApiRegister(payload: LoginFormValue) {
     },
     body: JSON.stringify(payload),
   };
+
   try {
     const URL = `${URLBase}register`;
     const response = await fetch(URL, requestOptions);
     const data = await response.json();
-    console.log(data)
+
     return data;
   } catch (e) {
     return { error: 'Impossible to register' };
@@ -31,11 +32,12 @@ export async function fetchApiLogin(payload: LoginFormValue) {
     },
     body: JSON.stringify(payload),
   };
+
   try {
     const URL = `${URLBase}login`;
     const response = await fetch(URL, requestOptions);
     const data = await response.json();
-    console.log(data)
+
     return data;
   } catch (e) {
     return { error: 'Impossible to log in' };
@@ -50,11 +52,12 @@ export async function fetchAuth(payload: tokenPayload) {
     },
     body: JSON.stringify(payload),
   };
+
   try {
     const URL = `${URLBase}auth`;
     const response = await fetch(URL, requestOptions);
     const data = await response.json();
-    console.log(data);
+
     return data;
   } catch (e) {
     return { error: 'Invalid token' };
