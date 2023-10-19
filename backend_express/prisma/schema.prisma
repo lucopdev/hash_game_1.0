@@ -3,18 +3,17 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./src/generated/client"
 }
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:password@127.0.0.1:3306/dbGame"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id Int @id @default(autoincrement())
   username String @unique
-  password String @ignore
+  password String
   user_score Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
