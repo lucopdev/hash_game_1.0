@@ -1,20 +1,42 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import connectDB, { prisma } from '../lib/connectDB';
+import IUserBody from '../interfaces/IUserBody';
+import INewUser from '../interfaces/INewUser';
 
 dotenv.config();
 connectDB();
 
 const getAllUsers = async (_req: Request, res: Response): Promise<Response> => {
-  const allUsers = await prisma.user.findMany();
+  const users = await prisma.user.findMany();
+  if (!users) {
+    return res.status(404).json({ message: 'User not found' });
+  }
 
-  return res.status(200).json(allUsers);
-  console.log(process.env.DATABASE_URL);
-  return res.status(200).json({ ok: 'users' });
+  const userResponse = users.map((user) => {
+    return {
+      username: user.username,
+      created_at: user.createdAt,
+    };
+  });
+
+  return res.status(200).json(userResponse);
 };
 
-const createUser = async (_req: Request, res: Response): Promise<Response> => {
-  return res.status(200).json({ user: 'user1' });
+const createUser = async (req: Request, res: Response): Promise<Response> => {
+  const { username, password }: IUserBody = req.body;
+
+  const newUser: INewUser = {
+    data: {
+      username: username,
+      password: password,
+    }
+  };
+
+  const user = await prisma.user.create(newUser);
+
+  // return res.status(200).json(user);
+  return res.status(200).json({ ok: 'go' });
 };
 
 export default {
