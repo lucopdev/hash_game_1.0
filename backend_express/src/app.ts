@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import { Application } from 'express';
 import UserController from './controller/UserController';
-// import LoginController from './controller/LoginController';
+import LoginController from './controller/LoginController';
 
 const app: Application = express();
 app.use(express.json());
@@ -18,7 +18,7 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/api/users', UserController.getAllUsers);
-// app.post('/api/register', UserController.createUser);
-// app.post('/api/login', LoginController.postLogin);
+app.post('/api/register', UserController.createUser);
+app.post('/api/login', LoginController.postLogin);
 
 export { app };
