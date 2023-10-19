@@ -10,7 +10,7 @@ connectDB();
 const getAllUsers = async (_req: Request, res: Response): Promise<Response> => {
   const users = await prisma.user.findMany();
   if (!users) {
-    return res.status(404).json({ message: 'User not found' });
+    return res.status(404).json({ message: 'User not found.' });
   }
 
   const userResponse = users.map((user) => {
@@ -30,13 +30,19 @@ const createUser = async (req: Request, res: Response): Promise<Response> => {
     data: {
       username: username,
       password: password,
-    }
+    },
   };
 
   const user = await prisma.user.create(newUser);
+  const userResponse = {
+    id: user.id,
+    username: user.username,
+    user_score: user.user_score,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt
+  }
 
-  // return res.status(200).json(user);
-  return res.status(200).json({ status: 'SUCCESSFUL', message: `User ${username} is registered.`});
+  return res.status(200).json({ status: 'SUCCESSFUL', data: userResponse });
 };
 
 export default {

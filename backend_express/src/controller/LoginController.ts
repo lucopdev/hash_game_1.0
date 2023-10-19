@@ -17,7 +17,7 @@ const postLogin = async (req: Request, res: Response) => {
     const user = await prisma.user.findFirstOrThrow({ where: { username } });
 
     if (!user) {
-      return res.status(404).json({ message: `${username} doesn't exist` });
+      return res.status(404).json({ message: `${username} doesn't exist.` });
     }
 
     const token = generateToken(username, secretKey);
@@ -25,7 +25,7 @@ const postLogin = async (req: Request, res: Response) => {
 
     return res
       .status(200)
-      .json({ status: 'SUCCESSFUL', message: `User ${username} is logged`, token });
+      .json({ status: 'SUCCESSFUL', message: `User ${username} is logged.`, token });
   } catch (error) {
     return res.status(500).json({ status: 'ERROR', error });
   }
