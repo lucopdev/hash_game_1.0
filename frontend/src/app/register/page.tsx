@@ -25,8 +25,9 @@ export default function Register() {
         Crie sua conta
       </button>
       {isModalOpen && (
-        <div className="fade-in absolute top-0 flex flex-col justify-center items-center w-screen h-screen bg-zinc-800 bg-opacity-80">
-          <div className="flex flex-col justify-center items-center w-6/12 h-3/4 rounded bg-zinc-900 bg-opacity-80">
+        <div className="fade-in absolute top-0 flex flex-col pt-[70px] items-center w-screen h-screen bg-zinc-800 bg-opacity-80">
+          <div className="flex flex-col justify-center items-center w-[90%] h-[500px] rounded bg-zinc-900 bg-opacity-80">
+            <h1 className="text-[30px] mb-[35px]">Crie sua conta</h1>
             <RegisterForm closeFunction={closeFunction} buttonType={'register'} />
           </div>
           <button onClick={closeFunction}>Fechar</button>

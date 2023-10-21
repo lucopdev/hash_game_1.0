@@ -2,7 +2,7 @@ import IFormSubmit from '@/interfaces/IFormSubmit';
 import LoginFormValue from '@/interfaces/ILoginFormValue';
 import tokenPayload from '@/interfaces/ITokenPayload';
 
-const URLBase = 'http://127.0.0.1:3000/api/';
+const URLBase = 'http://localhost:3000';
 
 export async function fetchApiRegister(payload: LoginFormValue) {
   const requestOptions = {
@@ -14,7 +14,7 @@ export async function fetchApiRegister(payload: LoginFormValue) {
   };
 
   try {
-    const URL = `${URLBase}register`;
+    const URL = `${URLBase}/register`;
     const response = await fetch(URL, requestOptions);
     const data = await response.json();
 
@@ -34,7 +34,7 @@ export async function fetchApiLogin(payload: LoginFormValue) {
   };
 
   try {
-    const URL = `${URLBase}login`;
+    const URL = `${URLBase}/login`;
     const response = await fetch(URL, requestOptions);
     const data = await response.json();
 
@@ -54,7 +54,7 @@ export async function fetchAuth(payload: tokenPayload) {
   };
 
   try {
-    const URL = `${URLBase}auth`;
+    const URL = `${URLBase}/api/auth`;
     const response = await fetch(URL, requestOptions);
     const data = await response.json();
 

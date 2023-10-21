@@ -58,10 +58,10 @@ export default function RegisterForm(props: any) {
   return (
     <form
       onSubmit={submitFunction}
-      className="m-auto flex flex-col justify-center items-center w-64 h-64 bg-green-500"
+      className={`flex flex-col justify-center items-center w-64 h-64 ${props.buttonType === 'login' ? 'bg-green-500' : 'bg-blue-500'}`}
     >
-      <fieldset className="flex flex-col justify-end items-center w-56 h-56 bg-zinc-800">
-        <div className="flex flex-col justify-evenly items-center mt-4 h-32">
+      <fieldset className="flex flex-col items-center w-56 h-56 bg-zinc-800">
+        <div className="flex flex-col justify-evenly items-center mt-4 h-[150px]">
           <input
             className="w-44 rounded text-black"
             type="text"
@@ -79,7 +79,7 @@ export default function RegisterForm(props: any) {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="border-2 rounded p-1 w-24 bg-green-500">
+        <button type="submit" className={`border-2 rounded p-1 w-24 ${props.buttonType === 'login' ? 'bg-green-500' : 'bg-blue-500'}`}>
           {props.buttonType === 'login' ? 'Log in' : 'Register'}
         </button>
       </fieldset>

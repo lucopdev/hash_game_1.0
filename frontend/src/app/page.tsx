@@ -9,18 +9,19 @@ import Chat from './components/chat/Chat';
 export default function Home() {
   const router = useRouter();
 
-  const verifyFunction = useCallback(async () => {
+  const verifyFunction = async () => {
     const token = document.cookie.split('"')[1];
     const verifyToken = await fetchAuth({ token });
 
     if (verifyToken.status !== 'SUCCESSFUL') {
       router.push('/register');
     }
-    document.cookie = `token=''`
-  }, [router]);
-  
+    document.cookie = `token=''`;
+  };
+
   useEffect(() => {
     verifyFunction();
+    return () => {};
   }, []);
 
   return (

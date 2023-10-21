@@ -2,24 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 39, 39, 42;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-} */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 35, 60, 40;
-    --background-middle1-rgb: 30, 50, 30;
-    --background-middle2-rgb: 30, 40, 30;
-    --background-middle3-rgb: 25, 32, 25;
-    --background-middle4-rgb: 22, 28, 22;
-    --background-middle5-rgb: 22, 22, 22;
-    --background-middle6-rgb: 20, 20, 20;
-    --background-end-rgb: 20, 20, 20;
-  }
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 35, 60, 40;
+  --background-middle1-rgb: 30, 50, 30;
+  --background-middle2-rgb: 30, 40, 30;
+  --background-middle3-rgb: 25, 32, 25;
+  --background-middle4-rgb: 22, 28, 22;
+  --background-middle5-rgb: 22, 22, 22;
+  --background-middle6-rgb: 20, 20, 20;
+  --background-end-rgb: 20, 20, 20;
 }
 
 body {

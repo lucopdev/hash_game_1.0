@@ -1,37 +1,28 @@
-// import dotenv from 'dotenv';
-// import express from 'express';
-// import { app } from './app';
-
-// dotenv.config();
-// const port = process.env.PORT || 3000;
-
-// app.use(express.json());
-
-// app.listen(port, () => {
-//   console.log(`Server express is running on port ${port}`);
-// });
-
-import http from 'http';
 import dotenv from 'dotenv';
-import express from 'express';
-import socketio from 'socket.io';
+const express = require('express');
+
+import { app } from './app';
 import { corsOptions } from './utils/corsConfig';
+const http = require('http').createServer(app);
 
 dotenv.config();
 const port = process.env.PORT || 3000;
 
-const app = express();
-const httpServer = http.createServer(app);
-const io = new socketio.Server(httpServer, {
+const io = require('socket.io')(http, {
   cors: corsOptions,
 });
 
-io.on('connection', (socket) => {
-  console.log(`New connection: ${socket.id}`);
-});
+http.listen(port, () => {
+  console.log(`server running on port ${port}`);
+  io.on('connection', (socket: any) => {
+    socket.on('makeMove', (move: any) => {
+      console.log(`User make move ${socket.id}`);
+      io.emit('recivedMove', move)
+    });
 
-httpServer.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    socket.on('message', (message: any) => {
+      console.log(`User send message ${socket.id}`);
+      io.emit('recivedMessage', message);
+    });
+  });
 });
-
-// tentar com versão 2.2.0 do socket.io

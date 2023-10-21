@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "dev-express": "nodemon --ext ts --exec ts-node src/server.ts",
     "dev": "PORT=3000 node ace serve --watch",
     "build": "node ace build --production",
     "start": "node server.js",

@@ -3,12 +3,14 @@ import { Application } from 'express';
 import UserController from './controller/UserController';
 import LoginController from './controller/LoginController';
 import AuthController from './controller/AuthController';
-import cors from './utils/corsConfig';
+// import cors from './utils/corsConfig';
+import cors from 'cors';
+import corsConfig from './utils/corsConfig';
 
 const app: Application = express();
 app.use(express.json());
 
-app.use(cors);
+app.use(corsConfig);
 
 app.get('/', (_req, res) => {
   res.send({ API: 'up!' });
