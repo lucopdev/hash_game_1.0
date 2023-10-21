@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 import connectDB, { prisma } from '../lib/connectDB';
 import IUserBody from '../interfaces/IUserBody';
 import INewUser from '../interfaces/INewUser';
-
+import z from 'zod';
+import bcrypt from 'bcrypt';
 dotenv.config();
 connectDB();
 
@@ -24,25 +25,38 @@ const getAllUsers = async (_req: Request, res: Response): Promise<Response> => {
 };
 
 const createUser = async (req: Request, res: Response): Promise<Response> => {
-  const { username, password }: IUserBody = req.body;
+  try {
+    const createUserSchema = z.object({
+      username: z.string(),
+      password: z.string().min(6, { message: 'Password must be 6 or more characters long.' }),
+    });
 
-  const newUser: INewUser = {
-    data: {
-      username: username,
-      password: password,
-    },
-  };
+    const { username, password } = createUserSchema.parse(req.body);
+    const cryptedPassword = await bcrypt.hash(password, 10);
 
-  const user = await prisma.user.create(newUser);
-  const userResponse = {
-    id: user.id,
-    username: user.username,
-    user_score: user.user_score,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt
+    const newUser: INewUser = {
+      data: {
+        username: username,
+        password: cryptedPassword,
+      },
+    };
+
+    const user = await prisma.user.create(newUser);
+    const userResponse = {
+      id: user.id,
+      username: user.username,
+      user_score: user.user_score,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
+    if (!user) {
+      return res.status(400).json({ status: 'ERROR', message: 'User couldn"t be registered' });
+    }
+    return res.status(200).json({ status: 'SUCCESSFUL', data: userResponse });
+  } catch (error) {
+    return res.status(500).json({ status: 'ERROR', error });
   }
-
-  return res.status(200).json({ status: 'SUCCESSFUL', data: userResponse });
 };
 
 export default {

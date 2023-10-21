@@ -4,7 +4,7 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react';
 export default function Chat() {
   const [chatText, setChatText] = useState<string>('');
   const [socketMsgRecived, setSocketMgsRecived] = useState<JSX.Element[]>([]);
-  const { socket, setSocket } = useContext(AppContext);
+  const { user, socket, setSocket } = useContext(AppContext);
 
   const msgReciveFunc = (message: string) => {
     setSocketMgsRecived((prevState) => [...prevState, <p key={message}>{message}</p>]);
@@ -21,7 +21,7 @@ export default function Chat() {
   }, [socket]);
 
   const emitMsg = () => {
-    socket.emit('message', chatText);
+    socket.emit('message', `${user}: ${chatText}`);
     setChatText('');
   };
 

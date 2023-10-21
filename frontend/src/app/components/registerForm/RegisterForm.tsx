@@ -3,8 +3,9 @@
 import LoginFormValue from '@/interfaces/ILoginFormValue';
 import IFormSubmit from '@/interfaces/IFormSubmit';
 import { fetchApiLogin, fetchApiRegister } from '@/utils/userAPI';
-import { ChangeEvent, FormEvent, ReactPropTypes, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, ReactPropTypes, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import AppContext from '@/context/AppContext';
 
 export default function RegisterForm(props: any) {
   const router = useRouter();
@@ -12,6 +13,8 @@ export default function RegisterForm(props: any) {
     username: '',
     password: '',
   });
+  const [errorModal, setErrorModal] = useState<string>('');
+  const { user, setUser } = useContext(AppContext);
 
   const submitFunction = async (e: FormEvent<HTMLFormElement>): Promise<IFormSubmit> => {
     e.preventDefault();
@@ -19,6 +22,8 @@ export default function RegisterForm(props: any) {
       username: formValues.username,
       password: formValues.password,
     };
+
+    setUser(payload.username);
 
     let login = null;
     let register = null;
@@ -30,6 +35,14 @@ export default function RegisterForm(props: any) {
         register = await fetchApiRegister(payload);
       }
 
+      if (register && register.status === 'ERROR') {
+        console.log(register)
+        setErrorModal(register.error.issues[0].message);
+      }
+      if (login && login.status === 'ERROR') {
+        setErrorModal('Verify your username or password');
+      }
+
       return { status: 'SUCCESSFULL', message: 'Form successfully submited' };
     } catch (e) {
       return { status: 'ERROR', message: 'Impossible to submit form' };
@@ -39,15 +52,16 @@ export default function RegisterForm(props: any) {
       }
 
       if (login !== null && login.status === 'SUCCESSFUL') {
-        const token = JSON.stringify(login.token)
-        
-        document.cookie = `token=${token}`
+        const token = JSON.stringify(login.token);
+
+        document.cookie = `token=${token}`;
         router.push('/');
       }
     }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setErrorModal('')
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -58,9 +72,12 @@ export default function RegisterForm(props: any) {
   return (
     <form
       onSubmit={submitFunction}
-      className={`flex flex-col justify-center items-center w-64 h-64 ${props.buttonType === 'login' ? 'bg-green-500' : 'bg-blue-500'}`}
+      className={`flex flex-col justify-center items-center w-[450px] h-64 ${
+        props.buttonType === 'login' ? 'bg-green-500' : 'bg-blue-500'
+      }`}
     >
-      <fieldset className="flex flex-col items-center w-56 h-56 bg-zinc-800">
+      <fieldset className="flex flex-col items-center w-[400px] h-56 bg-zinc-800">
+        <p className="absolute overflow-hidden">{errorModal}</p>
         <div className="flex flex-col justify-evenly items-center mt-4 h-[150px]">
           <input
             className="w-44 rounded text-black"
@@ -79,7 +96,12 @@ export default function RegisterForm(props: any) {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className={`border-2 rounded p-1 w-24 ${props.buttonType === 'login' ? 'bg-green-500' : 'bg-blue-500'}`}>
+        <button
+          type="submit"
+          className={`border-2 rounded p-1 w-24 ${
+            props.buttonType === 'login' ? 'bg-green-500' : 'bg-blue-500'
+          }`}
+        >
           {props.buttonType === 'login' ? 'Log in' : 'Register'}
         </button>
       </fieldset>

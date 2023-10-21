@@ -14,6 +14,7 @@ const ENDPOINT = 'http://localhost:3000';
 const newSocket = io(ENDPOINT);
 
 function AppProvider({ children }: AppProviderProps) {
+  const [user, setUser] = useState<string>('');
   const [socket, setSocket] = useState<Socket | null>(null);
 
   const fetchSocket = () => {
@@ -30,10 +31,12 @@ function AppProvider({ children }: AppProviderProps) {
 
   const values = useMemo(
     () => ({
+      user,
+      setUser,
       socket,
       setSocket,
     }),
-    [socket, setSocket]
+    [user, setUser, socket, setSocket]
   );
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
