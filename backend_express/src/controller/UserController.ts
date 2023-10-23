@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import connectDB, { prisma } from '../lib/connectDB';
-import IUserBody from '../interfaces/IUserBody';
 import INewUser from '../interfaces/INewUser';
 import z from 'zod';
 import bcrypt from 'bcrypt';
+
 dotenv.config();
 connectDB();
 
